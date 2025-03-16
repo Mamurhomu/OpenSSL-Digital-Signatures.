@@ -1,0 +1,102 @@
+Enhancing Data Integrity with OpenSSL Digital Signatures in Kali Linux
+
+In today's digital landscape, ensuring data integrity and authenticity is crucial. As a cybersecurity professional, I recently implemented a cryptographic solution using OpenSSL in Kali Linux to generate public and private key pairs, sign a document, and verify its integrity. This project showcases my understanding of encryption, digital signatures, and secure communication.
+
+Step-by-Step Process Using OpenSSL
+
+1. Updating Kali Linux
+
+Before starting, ensure your Kali Linux system is up to date:
+
+sudo apt update && sudo apt upgrade -y
+
+2. Generating the RSA Key Pair
+
+We begin by creating a private key:
+
+openssl genpkey -algorithm RSA -out private_key.pem
+
+To confirm the private key was generated:
+
+ll
+cat private_key.pem
+
+Next, extract the public key from the private key:
+
+openssl pkey -in private_key.pem -pubout -out public_key.pem
+
+Verify the public key:
+
+cat public_key.pem
+
+3. Creating a Sample Contract Document
+
+We create a text file that will be signed and verified.
+
+echo "Hi, my name is Mamurhomu" > contract.txt
+cat contract.txt
+
+4. Signing the Document with a Private Key
+
+Using the SHA-256 hashing algorithm, we sign the document:
+
+openssl dgst -sha256 -sign private_key.pem -out signature contract.txt
+
+Checking if the signature file exists:
+
+ls
+cat signature  # (This may produce unreadable characters since it’s a binary file)
+
+5. Verifying the Document's Authenticity
+
+We use the public key to verify the document:
+
+openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt
+
+If the document remains unchanged, the output will confirm:
+
+Verified OK
+
+6. Testing for Tampering
+
+Let's modify the document and check integrity:
+
+vi contract.txt  # Edit the content
+
+Now, verify the document again:
+
+openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt
+
+If any changes were made, the output will indicate a verification failure:
+
+Verification Failure
+
+This demonstrates how cryptographic signatures ensure document integrity and detect tampering.
+
+Commands Summary
+
+1. openssl version  
+2. sudo openssl  
+3. openssl genpkey -algorithm RSA -out private_key.pem  
+4. ll  
+5. cat private_key.pem  
+6. openssl pkey -in private_key.pem -pubout -out public_key.pem  
+7. ll  
+8. ls  
+9. cat public_key.pem  
+10. echo "Hi my name is Mamurhomu" > contract.txt  
+11. ls  
+12. cat contract.txt  
+13. openssl dgst -sha256 -sign private_key.pem -out signature contract.txt  
+14. ls  
+15. cat signature  
+16. openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt  
+17. vi contract.txt  
+18. openssl dgst -sha256 -verify public_key.pem -signature signature contract.txt  
+
+Conclusion
+
+This project highlights my ability to work with OpenSSL for cryptographic security, a fundamental skill in cybersecurity. By implementing digital signatures, organizations can ensure data authenticity, detect unauthorized modifications, and enhance security.
+
+🚀 I'm excited to explore more security solutions! If you're looking for a cybersecurity professional passionate about securing digital assets, feel free to connect with me!
+
